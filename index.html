@@ -5,42 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Now Playing Widget</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       background: #121212;
       color: #fff;
-      font-family: system-ui, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
+      font-family: system-ui, -apple-system, sans-serif;
     }
     .widget {
       display: flex;
       align-items: center;
       gap: 12px;
-      padding: 12px;
-      background: #1e1e1e;
-      border-radius: 12px;
-      max-width: 320px;
+      padding: 10px 14px;
       width: 100%;
+      height: 100%;
     }
     img {
-      width: 64px;
-      height: 64px;
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
       border-radius: 8px;
       object-fit: cover;
+      background: #242424;
     }
-    .info { overflow: hidden; }
-    .track { font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .artist { font-size: 0.85em; color: #aaa; }
-    .status { font-size: 0.75em; color: #1db954; margin-top: 4px; }
+    .info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      width: 100%;
+    }
+    .track {
+      font-size: 1rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .artist {
+      font-size: 0.85rem;
+      color: #b3b3b3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+    .status {
+      font-size: 0.75rem;
+      color: #1db954;
+      margin-top: 4px;
+      font-weight: 500;
+    }
   </style>
 </head>
 <body>
 
 <div class="widget">
-  <img id="cover" src="" alt="Cover" style="display:none;">
+  <img id="cover" src="" alt="Cover" style="display: none;">
   <div class="info">
     <div id="track" class="track">Waiting...</div>
     <div id="artist" class="artist"></div>
@@ -49,7 +76,9 @@
 </div>
 
 <script>
-  const USERNAME = "KittyForCat"; 
+  // Legge l'utente da ?user= nell'URL, altrimenti usa KittyForCat di default
+  const urlParams = new URLSearchParams(window.location.search);
+  const USERNAME = urlParams.get('user') || "KittyForCat"; 
   const API_KEY = "b736aff7ac849fbf3fb30ad3d04e09af";
 
   async function updateNowPlaying() {
@@ -68,15 +97,18 @@
       document.getElementById("status").innerText = isPlaying ? "Listening now" : "Last track";
 
       const coverImg = document.getElementById("cover");
-      const coverUrl = track.image[2]["#text"];
+      const coverUrl = track.image && track.image[2] ? track.image[2]["#text"] : "";
       if (coverUrl) {
         coverImg.src = coverUrl;
         coverImg.style.display = "block";
+      } else {
+        coverImg.style.display = "none";
       }
     } catch (err) {
       console.error("Error during fetching", err);
     }
   }
+
   updateNowPlaying();
   setInterval(updateNowPlaying, 20000);
 </script>
