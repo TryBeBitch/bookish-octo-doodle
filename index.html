@@ -42,15 +42,14 @@
 <div class="widget">
   <img id="cover" src="" alt="Cover" style="display:none;">
   <div class="info">
-    <div id="track" class="track">In attesa...</div>
+    <div id="track" class="track">Waiting...</div>
     <div id="artist" class="artist"></div>
     <div id="status" class="status"></div>
   </div>
 </div>
 
 <script>
-  // Inserisci i tuoi dati qui
-  const USERNAME = "NICKNAME_LASTFM"; 
+  const USERNAME = "KittyForCat"; 
   const API_KEY = "TUA_API_KEY_LASTFM";
 
   async function updateNowPlaying() {
@@ -66,16 +65,16 @@
       document.getElementById("artist").innerText = track.artist["#text"];
       
       const isPlaying = track["@attr"] && track["@attr"].nowplaying === "true";
-      document.getElementById("status").innerText = isPlaying ? "Ascoltando ora" : "Ultimo brano";
+      document.getElementById("status").innerText = isPlaying ? "Listening now" : "Last track";
 
       const coverImg = document.getElementById("cover");
-      const coverUrl = track.image[2]["#text"]; // dimensione medium/large
+      const coverUrl = track.image[2]["#text"];
       if (coverUrl) {
         coverImg.src = coverUrl;
         coverImg.style.display = "block";
       }
     } catch (err) {
-      console.error("Errore fetch Last.fm:", err);
+      console.error("Error during fetching", err);
     }
   }
 
