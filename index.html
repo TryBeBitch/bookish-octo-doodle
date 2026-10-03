@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Now Playing Widget</title>
+  <style>
+    body {
+      margin: 0;
+      background: #121212;
+      color: #fff;
+      font-family: system-ui, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .widget {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #1e1e1e;
+      border-radius: 12px;
+      max-width: 320px;
+      width: 100%;
+    }
+    img {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .info { overflow: hidden; }
+    .track { font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .artist { font-size: 0.85em; color: #aaa; }
+    .status { font-size: 0.75em; color: #1db954; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+<div class="widget">
+  <img id="cover" src="" alt="Cover" style="display:none;">
+  <div class="info">
+    <div id="track" class="track">In attesa...</div>
+    <div id="artist" class="artist"></div>
+    <div id="status" class="status"></div>
+  </div>
+</div>
+
+<script>
+  // Inserisci i tuoi dati qui
+  const USERNAME = "NICKNAME_LASTFM"; 
+  const API_KEY = "TUA_API_KEY_LASTFM";
+
+  async function updateNowPlaying() {
+    try {
+      const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${USERNAME}&api_key=${API_KEY}&format=json&limit=1`;
+      const res = await fetch(url);
+      const data = await res.json();
+      
+      const track = data.recenttracks.track[0];
+      if (!track) return;
+
+      document.getElementById("track").innerText = track.name;
+      document.getElementById("artist").innerText = track.artist["#text"];
+      
+      const isPlaying = track["@attr"] && track["@attr"].nowplaying === "true";
+      document.getElementById("status").innerText = isPlaying ? "Ascoltando ora" : "Ultimo brano";
+
+      const coverImg = document.getElementById("cover");
+      const coverUrl = track.image[2]["#text"]; // dimensione medium/large
+      if (coverUrl) {
+        coverImg.src = coverUrl;
+        coverImg.style.display = "block";
+      }
+    } catch (err) {
+      console.error("Errore fetch Last.fm:", err);
+    }
+  }
+
+  // Esegui subito e aggiorna ogni 20 secondi
+  updateNowPlaying();
+  setInterval(updateNowPlaying, 20000);
+</script>
+
+</body>
+</html>
