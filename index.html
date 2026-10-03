@@ -4,65 +4,70 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Now Playing Widget</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #121212;
-      color: #fff;
-      font-family: system-ui, -apple-system, sans-serif;
-    }
-    .widget {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 14px;
-      width: 100%;
-      height: 100%;
-    }
-    img {
-      width: 56px;
-      height: 56px;
-      min-width: 56px;
-      border-radius: 8px;
-      object-fit: cover;
-      background: #242424;
-    }
-    .info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      overflow: hidden;
-      width: 100%;
-    }
-    .track {
-      font-size: 1rem;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .artist {
-      font-size: 0.85rem;
-      color: #b3b3b3;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-top: 2px;
-    }
-    .status {
-      font-size: 0.75rem;
-      color: #1db954;
-      margin-top: 4px;
-      font-weight: 500;
-    }
-  </style>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html, body {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    touch-action: none;
+    overscroll-behavior: none;
+    background: #121212;
+    color: #fff;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  .widget {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    width: 100%;
+    height: 100%;
+  }
+  img {
+    width: 56px;
+    height: 56px;
+    min-width: 56px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #242424;
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+  }
+  .track {
+    font-size: 1rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .artist {
+    font-size: 0.85rem;
+    color: #b3b3b3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+  }
+  .status {
+    font-size: 0.75rem;
+    color: #1db954;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+</style>
 </head>
 <body>
 
